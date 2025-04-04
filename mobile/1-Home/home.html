@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#FFC107">
     <title>BeeMazing</title>
-    <base href="/" />
     <script>
-        // Dynamically set the base href for GitHub Pages and localhost
-        const baseHref = window.location.hostname === 'g4mechanger.github.io' ? '/BeeMazing/' : '/';
-        document.querySelector('base').setAttribute('href', baseHref);
+        // Set the correct base path depending on the environment (local or GitHub Pages)
+        const basePath = window.location.hostname === 'g4mechanger.github.io' ? '/BeeMazing/' : '/';
+    
+        // Update base href dynamically
+        document.querySelector('head').insertAdjacentHTML('beforeend', `<base href="${basePath}" />`);
+    
+        // Update footer links dynamically
+        document.querySelectorAll('.footer a').forEach(link => {
+            link.href = basePath + link.getAttribute('href').replace(/^\/?/, '');
+        });
     </script>
+    
     <link rel="manifest" href="/manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -264,7 +271,7 @@
 <body>
     <div class="header">
         <i class="fas fa-bars menu-icon" aria-label="Menu"></i>
-        <div class="title">BeeMazing 2</div> <!-- eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-->
+        <div class="title">BeeMazing 3</div> <!-- eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-->
     </div>
 
     <div class="content">
