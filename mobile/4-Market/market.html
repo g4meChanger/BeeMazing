@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BeeMazing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-color: #FFC107;
+            --secondary-color: #212121;
+            --accent-color: #FFFFFF;
+            --light-bg: #FFF8E1;
+            --text-color: #212121;
+            --danger-color: #D32F2F;
+            --modal-bg: rgba(33, 33, 33, 0.7);
+            --header-height: 58px;
+            --footer-height: 70px;
+            --add-btn-height: 80px;
+        }
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #FFB300);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 100;
+        }
+        .menu-icon {
+            font-size: 28px;
+            margin-right: 15px;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .menu-icon:hover {
+            transform: rotate(90deg);
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            letter-spacing: 1px;
+        }
+        .content {
+            position: absolute;
+            top: var(--header-height);
+            bottom: calc(var(--footer-height) + var(--add-btn-height));
+            width: 100%;
+            padding: 20px;
+            overflow-y: auto;
+            background: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M20 0l10 5.77v11.54L20 23.08l-10-5.77V5.77L20 0zm0 2.31L11.54 7.08v9.84L20 21.69l8.46-4.77V7.08L20 2.31z" fill="%23FFC107" fill-opacity="0.1"/%3E%3C/svg%3E') repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .reward-list {
+            list-style: none;
+            padding: 0;
+            width: 90%;
+            max-width: 500px;
+        }
+        .reward-item {
+            background: var(--accent-color);
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+        .reward-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        .reward-item strong {
+            color: var(--secondary-color);
+        }
+        .reward-item.swiped {
+            transform: translateX(-100px);
+        }
+        .delete-btn {
+            position: absolute;
+            right: -100px;
+            top: 0;
+            height: 100%;
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: right 0.3s ease, background-color 0.3s ease;
+        }
+        .reward-item.swiped .delete-btn {
+            right: 0;
+        }
+        .delete-btn:hover {
+            background: #B71C1C;
+        }
+        .add-reward-btn {
+            position: fixed;
+            bottom: calc(var(--footer-height) + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            font-size: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            z-index: 99;
+        }
+        .add-reward-btn:hover {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            transform: translateX(-50%) scale(1.1);
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, var(--primary-color), #FFB300);
+            padding: 10px 0;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            height: var(--footer-height);
+        }
+        .footer a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .footer a:hover {
+            transform: scale(1.1);
+        }
+        .footer-icon img {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+        .footer-icon span {
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        @media (max-width: 600px) {
+            .add-reward-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 28px;
+                bottom: calc(var(--footer-height) + 10px);
+            }
+            .footer-icon img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <i class="fas fa-bars menu-icon" aria-label="Menu"></i>
+        <div class="title">Market</div>
+    </div>
+
+    <div class="content">
+        <ul class="reward-list" id="rewardList">
+            <!-- Rewards will be loaded here dynamically -->
+        </ul>
+    </div>
+
+    <a href="/mobile/4-Market/addreward.html" class="add-reward-btn" aria-label="Add Reward">+</a>
+
+    <div class="footer">
+        <a href="/mobile/1-Home/home.html" class="footer-icon" aria-label="Home">
+            <img src="/mobile/1-Home/HomeBtn.png" alt="Home" />
+            <span>Home</span>
+        </a>
+        <a href="/mobile/3-Tasks/tasks.html" class="footer-icon" aria-label="Tasks">
+            <img src="/mobile/1-Home/TasksBtn.png" alt="Tasks" />
+            <span>Tasks</span>
+        </a>
+        <a href="/mobile/4-Market/market.html" class="footer-icon" aria-label="Market">
+            <img src="/mobile/1-Home/MarketBtn.png" alt="Market" />
+            <span>Market</span>
+        </a>
+        <a href="/mobile/5-Stats/stats.html" class="footer-icon" aria-label="Stats">
+            <img src="/mobile/1-Home/StatsBtn.png" alt="Stats" />
+            <span>Stats</span>
+        </a>
+    </div>
+
+    <script>
+        function loadRewards() {
+            const rewards = JSON.parse(localStorage.getItem("familyApp_rewards_market")) || [];
+            const rewardList = document.getElementById("rewardList");
+
+            rewardList.innerHTML = "";
+            if (rewards.length === 0) {
+                rewardList.innerHTML = "<p>No rewards in the hive. Click + to add one.</p>";
+                return;
+            }
+
+            rewards.forEach((reward, index) => {
+                const rewardItem = document.createElement("li");
+                rewardItem.className = "reward-item";
+                rewardItem.innerHTML = `
+                    <strong>${reward.name}</strong><br>
+                    Honey: ${reward.diamonds} 🍯
+                `;
+
+                // Create delete button
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "delete-btn";
+                deleteButton.textContent = "Delete";
+                deleteButton.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    deleteReward(index);
+                    loadRewards();
+                });
+                rewardItem.appendChild(deleteButton);
+
+                // Swipe functionality
+                let startX = 0;
+                let currentX = 0;
+                let isSwiping = false;
+
+                // Touch events
+                rewardItem.addEventListener("touchstart", (e) => {
+                    startX = e.touches[0].clientX;
+                    isSwiping = true;
+                    // Reset other swiped items
+                    document.querySelectorAll('.reward-item.swiped').forEach(item => {
+                        if (item !== rewardItem) item.classList.remove('swiped');
+                    });
+                });
+
+                rewardItem.addEventListener("touchmove", (e) => {
+                    if (!isSwiping) return;
+                    currentX = e.touches[0].clientX;
+                    const diffX = startX - currentX;
+                    if (diffX > 50 && diffX < 150) { // Added upper limit to prevent excessive sliding
+                        rewardItem.classList.add("swiped");
+                    } else if (diffX < -10) { // Slightly negative threshold to close
+                        rewardItem.classList.remove("swiped");
+                    }
+                });
+
+                rewardItem.addEventListener("touchend", (e) => {
+                    isSwiping = false;
+                    // Don't trigger delete here - let the button handle it
+                });
+
+                // Mouse events (for desktop)
+                rewardItem.addEventListener("mousedown", (e) => {
+                    startX = e.clientX;
+                    isSwiping = true;
+                    document.querySelectorAll('.reward-item.swiped').forEach(item => {
+                        if (item !== rewardItem) item.classList.remove('swiped');
+                    });
+                });
+
+                rewardItem.addEventListener("mousemove", (e) => {
+                    if (!isSwiping) return;
+                    currentX = e.clientX;
+                    const diffX = startX - currentX;
+                    if (diffX > 50 && diffX < 150) {
+                        rewardItem.classList.add("swiped");
+                    } else if (diffX < -10) {
+                        rewardItem.classList.remove("swiped");
+                    }
+                });
+
+                rewardItem.addEventListener("mouseup", (e) => {
+                    isSwiping = false;
+                });
+
+                // Click outside to close swipe
+                document.addEventListener("click", (e) => {
+                    if (!rewardItem.contains(e.target) && rewardItem.classList.contains("swiped")) {
+                        rewardItem.classList.remove("swiped");
+                    }
+                });
+
+                rewardList.appendChild(rewardItem);
+            });
+        }
+
+        function deleteReward(index) {
+            const rewards = JSON.parse(localStorage.getItem("familyApp_rewards_market")) || [];
+            if (rewards[index]) {
+                rewards.splice(index, 1);
+                localStorage.setItem("familyApp_rewards_market", JSON.stringify(rewards));
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadRewards);
+    </script>
+</body>
+</html>
