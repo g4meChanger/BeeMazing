@@ -5,18 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#FFC107">
     <title>BeeMazing</title>
+     <!-- Dynamically Set Base Path -->
+     <base href="/">
+     <script>
+         // Detect if we're on GitHub Pages or local environment
+         const isGitHubPages = window.location.hostname === "g4mechanger.github.io";
+ 
+         // Set the base path dynamically
+         const basePath = isGitHubPages ? "/BeeMazing" : "";
+ 
+         // Set the base tag href dynamically based on environment
+         const baseTag = document.querySelector('base');
+         if (baseTag) {
+             baseTag.href = basePath;
+         }
+     </script>
     <link rel="manifest" href="/manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <script>
-        // Dynamically set the base URL based on the environment (GitHub Pages or local)
-        const base = document.createElement('base');
-        if (window.location.hostname === 'g4mechanger.github.io') {
-            base.setAttribute('href', '/BeeMazing/');
-        } else {
-            base.setAttribute('href', '/');
-        }
-        document.head.appendChild(base);  // Append the base tag to the head
-    </script>
     <style>
         * {
             margin: 0;
@@ -268,7 +273,7 @@
 <body>
     <div class="header">
         <i class="fas fa-bars menu-icon" aria-label="Menu"></i>
-        <div class="title">BeeMazing 6</div> <!-- eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-->
+        <div class="title">BeeMazing 7</div> <!-- eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-->
     </div>
 
     <div class="content">
